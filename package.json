@@ -1,0 +1,48 @@
+{
+  "name": "fantasy-realms",
+  "version": "0.1.0",
+  "description": "simple telegram bot",
+  "main": "dist",
+  "engines": {
+    "node": ">=12.6",
+    "npm": ">=6.9"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "body-parser": "^1.19.0",
+    "dotenv": "^9.0.0"
+  },
+  "devDependencies": {
+    "@now/node": "^1.7.1",
+    "@types/dotenv": "^8.2.0",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "@typescript-eslint/parser": "^4.22.1",
+    "eslint": "^7.25.0",
+    "eslint-config-prettier": "^8.3.0",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.5.6",
+    "typemoq": "^2.1.0",
+    "typescript": "^4.2.4",
+    "vercel": "^22.0.1"
+  },
+  "scripts": {
+    "format": "prettier --write \"src/**/*.ts*\" \"test*/**/*.ts*\"",
+    "lint": "eslint . --ext .ts",
+    "test": "jest --config jestconfig.json --coverage",
+    "start:init": "./node_modules/.bin/vercel",
+    "start:dev": "./node_modules/.bin/vercel dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zinovik/fantasy-realms.git"
+  },
+  "author": "Max Zinovik",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/zinovik/fantasy-realms/issues"
+  },
+  "homepage": "https://github.com/zinovik/fantasy-realms#readme"
+}

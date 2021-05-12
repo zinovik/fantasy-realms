@@ -6,6 +6,7 @@ import { FormatterService } from '../formatter/FormatterService';
 import { MessengerService } from '../messenger/MessengerService';
 
 import { ACTION_NAME, Action } from '../common/Action';
+import { Card } from '../common/Card';
 
 export class Main implements MainInterface {
   constructor(
@@ -39,82 +40,64 @@ export class Main implements MainInterface {
   }
 
   private getMessage(action: Action): { text: string; replyMarkup: string } {
+    let cards: Card[] = [];
+    let suitIdSelected: number | undefined;
+
     switch (action.id) {
       case ACTION_NAME.CHOOSE_SUIT:
-        return action.button === 0 ? this.onCancelWhenChooseSuit(action) : this.onChooseSuit(action);
+        if (action.button === 0) {
+          cards = this.gameService.getCardsByIds(action.cardsIds.slice(0, -1));
+          break;
+        }
+
+        cards = this.gameService.getCardsByIds(action.cardsIds);
+
+        if (this.gameService.isSelectedSuitForCard(cards)) {
+          cards = this.gameService.getCardsByIds([...action.cardsIds, action.button]);
+        } else {
+          suitIdSelected = action.button;
+        }
+
+        break;
 
       case ACTION_NAME.CHOOSE_CARD:
-        return action.button === 0 ? this.onCancelWhenChooseCard(action) : this.onChooseCard(action);
+        if (action.button === 0) {
+          cards = this.gameService.getCardsByIds(action.cardsIds);
+          if (this.gameService.chooseFromCards(cards).length > 0) {
+            cards = cards.slice(0, -1);
+          }
+          break;
+        }
+
+        cards = this.gameService.getCardsByIds([...action.cardsIds, action.button]);
+        break;
 
       case ACTION_NAME.NEW:
-        return action.button === 0 ? this.onCancelWhenChooseSuit(action) : this.onNew();
+        if (action.button === 0) {
+          cards = this.gameService.getCardsByIds(action.cardsIds.slice(0, -1));
+          break;
+        }
 
-      default: {
-        return this.onNew();
-      }
-    }
-  }
-
-  // TODO: Select card if only one suit
-
-  private onCancelWhenChooseSuit(action: Action): { text: string; replyMarkup: string } {
-    const cardsIds = action.cardsIds.slice(0, -1);
-    const cards = this.gameService.getCardsByIds(cardsIds);
-
-    const cardsToChoose = this.gameService.chooseFromCards(cards);
-
-    if (cardsToChoose.length > 0) {
-      return this.formatterService.getChooseCardMessage({ cardsToChoose, cards });
+        cards = [];
+        break;
     }
 
-    const suits = this.gameService.getSuits(cards);
+    if (this.gameService.isCardsLimit(cards)) {
+      console.log('Send RESULT message');
 
-    return this.formatterService.getChooseSuitMessage({ suits, cards });
-  }
-
-  private onCancelWhenChooseCard(action: Action): { text: string; replyMarkup: string } {
-    const cards = this.gameService.getCardsByIds(action.cardsIds);
-
-    const cardsToChoose = this.gameService.chooseFromCards(cards);
-
-    if (cardsToChoose.length > 0) {
-      return this.onCancelWhenChooseSuit(action);
-    }
-
-    const suits = this.gameService.getSuits(cards);
-
-    return this.formatterService.getChooseSuitMessage({ suits, cards });
-  }
-
-  private onChooseSuit(action: Action): { text: string; replyMarkup: string } {
-    const cards = this.gameService.getCardsByIds(action.cardsIds);
-    const cardsToChoose = this.gameService.getCards(action.button, cards);
-
-    return this.formatterService.getChooseCardMessage({ cardsToChoose, cards });
-  }
-
-  private onChooseCard(action: Action): { text: string; replyMarkup: string } {
-    const cardsIds: number[] = [...action.cardsIds, action.button];
-    const cards = this.gameService.getCardsByIds(cardsIds);
-
-    if (this.gameService.isMaxCards(cards)) {
       return this.formatterService.getResultMessage({ cards });
     }
 
-    const cardsToChoose = this.gameService.chooseFromCards(cards);
+    const cardsToChoose = this.gameService.chooseFromCards(cards, suitIdSelected);
 
     if (cardsToChoose.length > 0) {
+      console.log('Send CARD message');
+
       return this.formatterService.getChooseCardMessage({ cardsToChoose, cards });
     }
 
-    const suits = this.gameService.getSuits(cards);
+    console.log('Send SUIT message');
 
-    return this.formatterService.getChooseSuitMessage({ suits, cards });
-  }
-
-  private onNew(): { text: string; replyMarkup: string } {
-    const cardsIds: number[] = [];
-    const cards = this.gameService.getCardsByIds(cardsIds);
     const suits = this.gameService.getSuits(cards);
 
     return this.formatterService.getChooseSuitMessage({ suits, cards });

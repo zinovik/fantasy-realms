@@ -64,8 +64,9 @@ export class TelegramMessage implements FormatterService {
       return 'No added cards yet.\n\n';
     }
 
-    const cardsText = cards.map((card) => this.getCardText(card)).join('\n');
-    const totalText = `Total: ${cards.reduce(
+    const cardsFiltered = cards.filter((card) => !card.isHidden);
+    const cardsText = cardsFiltered.map((card) => this.getCardText(card)).join('\n');
+    const totalText = `Total: ${cardsFiltered.reduce(
       (acc, card) => acc + card.getBaseStrength() + card.getBonusOrPenalty(),
       0,
     )}`;
@@ -83,9 +84,9 @@ export class TelegramMessage implements FormatterService {
     const bonusOrPenalty = card.getBonusOrPenalty();
     const total = baseStrength + bonusOrPenalty;
 
-    const modificator = card.modificator ? ` - ${card.modificator}` : '';
+    const modifiedBy = card.modifiedBy ? ` - ${card.modifiedBy}` : '';
 
-    return `${title} (${total} = ${baseStrength} + ${bonusOrPenalty})${modificator}`;
+    return `${title} (${total} = ${baseStrength} + ${bonusOrPenalty})${modifiedBy}`;
   }
 
   private getCardTitle(card: Card): string {
@@ -107,6 +108,8 @@ export class TelegramMessage implements FormatterService {
         } as CallbackData),
       },
     ]);
+
+    console.log('INLINE KEYBOARD', inlineKeyboard);
 
     const keyboard: ReplyMarkup = {
       inline_keyboard: inlineKeyboard,

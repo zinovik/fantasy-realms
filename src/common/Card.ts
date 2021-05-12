@@ -14,12 +14,14 @@ export class Card {
   isClearBaseStrength: boolean;
   isClearBonus: boolean;
   isClearPenalty: boolean;
-  modificator: string;
+  modifiedBy: string;
   choiceModificator: string;
   allowsNextCardToBeCopy: boolean;
   isIncreaseCardsLimit: boolean;
 
   isArmyPenaltyIgnored: boolean;
+  isHidden: boolean;
+  isSelectSuitForNextCard: boolean;
 
   constructor({
     id,
@@ -29,6 +31,7 @@ export class Card {
     allowsNextCardToBeCopy = false,
     choiceModificator = '',
     isIncreaseCardsLimit = false,
+    isSelectSuitForNextCard = false,
   }: {
     id: number;
     suit: Suit;
@@ -37,6 +40,7 @@ export class Card {
     allowsNextCardToBeCopy?: boolean;
     choiceModificator?: string;
     isIncreaseCardsLimit?: boolean;
+    isSelectSuitForNextCard?: boolean;
   }) {
     this.id = id;
     this.name = name;
@@ -48,6 +52,7 @@ export class Card {
     this.allowsNextCardToBeCopy = allowsNextCardToBeCopy;
     this.choiceModificator = choiceModificator;
     this.isIncreaseCardsLimit = isIncreaseCardsLimit;
+    this.isSelectSuitForNextCard = isSelectSuitForNextCard;
 
     this.bonus = 0;
     this.penalty = 0;
@@ -55,8 +60,9 @@ export class Card {
     this.isClearBaseStrength = false;
     this.isClearBonus = false;
     this.isClearPenalty = false;
-    this.modificator = '';
+    this.modifiedBy = '';
     this.isArmyPenaltyIgnored = false;
+    this.isHidden = false;
   }
 
   getId(): number {
@@ -87,11 +93,31 @@ export class Card {
     return [];
   }
 
+  clearPenalty(cards: Card[]): void {
+    //
+  }
+
   blankCards(cards: Card[]): void {
     //
   }
 
   calculate(cards: Card[]): void {
     //
+  }
+
+  getCopy(isIncreaseCardsLimit: boolean): Card {
+    const cardCopy = new Card({
+      id: this.getId(),
+      suit: this.suit,
+      name: this.getName(),
+      originalBaseStrength: this.getOriginalBaseStrength(),
+      isIncreaseCardsLimit,
+    });
+
+    cardCopy.clearPenalty = this.clearPenalty;
+    cardCopy.blankCards = this.blankCards;
+    cardCopy.calculate = this.calculate;
+
+    return cardCopy;
   }
 }

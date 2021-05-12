@@ -29,6 +29,7 @@ curl localhost:3000/api/message
 ---
 
 https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook?url=https://<NGROK>.ngrok.io/api/message
+https://api.telegram.org/bot<TELEGRAM_TOKEN>/setWebhook?url=https://fantasy-realms.vercel.app/api/message
 
 ---
 

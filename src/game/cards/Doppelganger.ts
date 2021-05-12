@@ -23,16 +23,9 @@ export class Doppelganger extends Card {
 
     const nextCard: Card = cards[nextCardIndex];
 
-    const nextCardCopy = new Card({
-      id: nextCard.getId(),
-      suit: nextCard.suit,
-      name: nextCard.getName(),
-      originalBaseStrength: nextCard.getOriginalBaseStrength(),
-      isIncreaseCardsLimit: true,
-    });
+    const nextCardCopy = nextCard.getCopy(true);
     nextCardCopy.isClearBonus = true;
-    nextCardCopy.modificator = this.choiceModificator;
-    nextCardCopy.calculate = nextCard.calculate;
+    nextCardCopy.modifiedBy = this.choiceModificator;
 
     cards.splice(nextCardIndex, 1, nextCardCopy);
   }

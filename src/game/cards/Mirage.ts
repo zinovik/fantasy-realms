@@ -24,17 +24,11 @@ export class Mirage extends Card {
 
     const nextCard: Card = cards[nextCardIndex];
 
-    const nextCardCopy = new Card({
-      id: nextCard.getId(),
-      suit: nextCard.suit,
-      name: nextCard.getName(),
-      originalBaseStrength: nextCard.getOriginalBaseStrength(),
-    });
+    const nextCardCopy = nextCard.getCopy(false);
     nextCardCopy.isClearBaseStrength = true;
     nextCardCopy.isClearBonus = true;
     nextCardCopy.isClearPenalty = true;
-    nextCardCopy.modificator = this.choiceModificator;
-    nextCardCopy.calculate = nextCard.calculate;
+    nextCardCopy.modifiedBy = this.choiceModificator;
 
     cards.splice(nextCardIndex, 1, nextCardCopy);
   }

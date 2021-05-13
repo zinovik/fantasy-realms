@@ -1,5 +1,5 @@
-import { Card } from '../../common/Card';
-import { SUIT_ARMY, SUIT_WEATHER } from '../suits';
+import { Card } from '../../../common/Card';
+import { SUIT_ARMY, SUIT_WEATHER } from '../../suits';
 
 export class ElvenArchers extends Card {
   constructor() {
@@ -12,6 +12,6 @@ export class ElvenArchers extends Card {
   }
 
   calculate(cards: Card[]): void {
-    this.bonus = cards.every((card) => card.isBlanked || card.suit !== SUIT_WEATHER) ? 5 : 0;
+    this.bonus = cards.every((card) => card.suit !== SUIT_WEATHER) ? 5 : 0;
   }
 }

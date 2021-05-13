@@ -17,7 +17,7 @@ export class TelegramMessage implements FormatterService {
     }
 
     return {
-      text: this.getCardsText(cards) + `Chose the card suit${this.getChoiceModificator(cards)}:`,
+      text: this.getCardsText(cards) + `Chose the card suit${this.getChoiceModifier(cards)}:`,
       replyMarkup: this.getButtons(buttons, cards, ACTION_NAME.CHOOSE_SUIT),
     };
   }
@@ -29,25 +29,27 @@ export class TelegramMessage implements FormatterService {
     cardsToChoose: Card[];
     cards: Card[];
   }): { text: string; replyMarkup: string } {
-    const buttons = cardsToChoose.map((card) => ({
-      text: `${card.getOriginalBaseStrength()}. ${card.getName()}`,
-      button: card.getId(),
-    }));
+    const buttons = cardsToChoose
+      .filter((card) => !card.isHidden)
+      .map((card) => ({
+        text: `${card.getOriginalBaseStrength()}. ${card.getName()}`,
+        button: card.getId(),
+      }));
 
     buttons.push(this.getCancelButton());
 
     return {
-      text: this.getCardsText(cards) + `Chose the card${this.getChoiceModificator(cards)}:`,
+      text: this.getCardsText(cards) + `Chose the card${this.getChoiceModifier(cards)}:`,
       replyMarkup: this.getButtons(buttons, cards, ACTION_NAME.CHOOSE_CARD),
     };
   }
 
-  private getChoiceModificator(cards: Card[]): string {
+  private getChoiceModifier(cards: Card[]): string {
     const previousCard = cards[cards.length - 1];
-    const cardChoiceModificator = previousCard ? previousCard.choiceModificator : '';
-    const choiceModificator = cardChoiceModificator ? ` (${previousCard.choiceModificator})` : '';
+    const cardChoiceModifier = previousCard ? previousCard.choiceModifier : '';
+    const choiceModifier = cardChoiceModifier ? ` (${previousCard.choiceModifier})` : '';
 
-    return choiceModificator;
+    return choiceModifier;
   }
 
   getResultMessage({ cards }: { cards: Card[] }): { text: string; replyMarkup: string } {
@@ -86,7 +88,7 @@ export class TelegramMessage implements FormatterService {
 
     const modifiedBy = card.modifiedBy ? ` - ${card.modifiedBy}` : '';
 
-    return `${title} (${total} = ${baseStrength} + ${bonusOrPenalty})${modifiedBy}`;
+    return `${title} | ${card.suit.name} | ${total} = ${baseStrength} + ${bonusOrPenalty}${modifiedBy}`;
   }
 
   private getCardTitle(card: Card): string {
@@ -127,7 +129,7 @@ export class TelegramMessage implements FormatterService {
 
   private getNewButton(): { text: string; button: number } {
     return {
-      text: '[ NEW ]',
+      text: '[ RESET ]',
       button: 1,
     };
   }

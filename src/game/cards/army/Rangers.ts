@@ -1,5 +1,5 @@
-import { Card } from '../../common/Card';
-import { SUIT_ARMY, SUIT_LAND } from '../suits';
+import { Card } from '../../../common/Card';
+import { SUIT_ARMY, SUIT_LAND } from '../../suits';
 
 export class Rangers extends Card {
   constructor() {
@@ -12,7 +12,7 @@ export class Rangers extends Card {
   }
 
   calculate(cards: Card[]): void {
-    this.bonus = cards.filter((card) => !card.isBlanked && card.suit === SUIT_LAND).length * 10;
+    this.bonus = cards.filter((card) => card.suit === SUIT_LAND).length * 10;
 
     cards.forEach((card) => (card.isArmyPenaltyIgnored = true));
   }

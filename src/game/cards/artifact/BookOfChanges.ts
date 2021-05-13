@@ -1,6 +1,6 @@
-import { Card } from '../../common/Card';
-import { Suit } from '../../common/Suit';
-import { suits, SUIT_ARTIFACT } from '../suits';
+import { Card } from '../../../common/Card';
+import { Suit } from '../../../common/Suit';
+import { suits, SUIT_ARTIFACT } from '../../suits';
 
 export class BookOfChanges extends Card {
   constructor() {
@@ -11,7 +11,7 @@ export class BookOfChanges extends Card {
       originalBaseStrength: 3,
       isIncreaseCardsLimit: true,
       allowsNextCardToBeCopy: true,
-      choiceModificator: 'BOOK OF CHANGES',
+      choiceModifier: 'BOOK OF CHANGES',
       isSelectSuitForNextCard: true,
     });
   }
@@ -26,10 +26,12 @@ export class BookOfChanges extends Card {
     const nextCard: Card = cards[nextCardIndex];
 
     const nextCardCopy = nextCard.getCopy(true);
-    nextCardCopy.modifiedBy = this.choiceModificator;
+    nextCardCopy.modifiedBy = this.choiceModifier;
 
-    if (cards[nextCardIndex + 1]) {
-      nextCardCopy.suit = suits.find((suit) => suit.id === cards[nextCardIndex + 1].getId()) as Suit;
+    const suitCard: Card | undefined = cards[nextCardIndex + 1];
+
+    if (suitCard) {
+      nextCardCopy.suit = suits.find((suit) => suit.id === suitCard.getId()) as Suit;
     }
 
     cards.splice(nextCardIndex, 1, nextCardCopy);

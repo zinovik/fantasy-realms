@@ -1,6 +1,6 @@
-import { Card } from '../../common/Card';
-import { Suit } from '../../common/Suit';
-import { SUIT_ARTIFACT, SUIT_BEAST, SUIT_LEADER, SUIT_WEAPON, SUIT_WILD, SUIT_WIZARD } from '../suits';
+import { Card } from '../../../common/Card';
+import { Suit } from '../../../common/Suit';
+import { SUIT_ARTIFACT, SUIT_BEAST, SUIT_LEADER, SUIT_WEAPON, SUIT_WILD, SUIT_WIZARD } from '../../suits';
 
 export class Shapeshifter extends Card {
   constructor() {
@@ -11,7 +11,7 @@ export class Shapeshifter extends Card {
       originalBaseStrength: 0,
       isIncreaseCardsLimit: true,
       allowsNextCardToBeCopy: true,
-      choiceModificator: 'SHAPESHIFTER',
+      choiceModifier: 'SHAPESHIFTER',
     });
   }
 
@@ -24,11 +24,11 @@ export class Shapeshifter extends Card {
 
     const nextCard: Card = cards[nextCardIndex];
 
-    const nextCardCopy = nextCard.getCopy(false);
+    const nextCardCopy = nextCard.getCopy();
     nextCardCopy.isClearBaseStrength = true;
     nextCardCopy.isClearBonus = true;
     nextCardCopy.isClearPenalty = true;
-    nextCardCopy.modifiedBy = this.choiceModificator;
+    nextCardCopy.modifiedBy = this.choiceModifier;
 
     cards.splice(nextCardIndex, 1, nextCardCopy);
   }

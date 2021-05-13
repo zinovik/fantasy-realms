@@ -15,7 +15,7 @@ export class Card {
   isClearBonus: boolean;
   isClearPenalty: boolean;
   modifiedBy: string;
-  choiceModificator: string;
+  choiceModifier: string;
   allowsNextCardToBeCopy: boolean;
   isIncreaseCardsLimit: boolean;
 
@@ -29,7 +29,7 @@ export class Card {
     name,
     originalBaseStrength,
     allowsNextCardToBeCopy = false,
-    choiceModificator = '',
+    choiceModifier = '',
     isIncreaseCardsLimit = false,
     isSelectSuitForNextCard = false,
   }: {
@@ -38,7 +38,7 @@ export class Card {
     name: string;
     originalBaseStrength: number;
     allowsNextCardToBeCopy?: boolean;
-    choiceModificator?: string;
+    choiceModifier?: string;
     isIncreaseCardsLimit?: boolean;
     isSelectSuitForNextCard?: boolean;
   }) {
@@ -50,7 +50,7 @@ export class Card {
 
     this.baseStrength = originalBaseStrength;
     this.allowsNextCardToBeCopy = allowsNextCardToBeCopy;
-    this.choiceModificator = choiceModificator;
+    this.choiceModifier = choiceModifier;
     this.isIncreaseCardsLimit = isIncreaseCardsLimit;
     this.isSelectSuitForNextCard = isSelectSuitForNextCard;
 
@@ -78,11 +78,23 @@ export class Card {
   }
 
   getBaseStrength(): number {
-    return this.isBlanked || this.isClearBaseStrength ? 0 : this.baseStrength;
+    if (this.isBlanked) {
+      return 0;
+    }
+
+    if (this.isClearBaseStrength) {
+      return 0;
+    }
+
+    return this.baseStrength;
   }
 
   getBonusOrPenalty(): number {
-    return this.isBlanked ? 0 : (this.isClearBonus ? 0 : this.bonus) + (this.isClearPenalty ? 0 : this.penalty);
+    if (this.isBlanked) {
+      return 0;
+    }
+
+    return (this.isClearBonus ? 0 : this.bonus) + (this.isClearPenalty ? 0 : this.penalty);
   }
 
   getNextCardsSuits(): Suit[] {
@@ -105,7 +117,7 @@ export class Card {
     //
   }
 
-  getCopy(isIncreaseCardsLimit: boolean): Card {
+  getCopy(isIncreaseCardsLimit?: boolean): Card {
     const cardCopy = new Card({
       id: this.getId(),
       suit: this.suit,

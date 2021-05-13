@@ -1,44 +1,37 @@
 import { IMock, Mock } from 'typemoq';
 
 import { Main } from '../../../src/main/Main';
-import { DataService } from '../../../src/data/DataService.interface';
-import { DataBaseService } from '../../../src/database/DataBaseService.interface';
-import { ProcessService } from '../../../src/process/ProcessService.interface';
-import { MessengerService } from '../../../src/messenger/MessengerService.interface';
-
-const CHANNEL_ID = '@testChannelId';
+import { ParserService } from '../../../src/parser/ParserService';
+import { GameService } from '../../../src/game/GameService';
+import { FormatterService } from '../../../src/formatter/FormatterService';
+import { MessengerService } from '../../../src/messenger/MessengerService';
 
 describe('Main', () => {
-  let dataServiceMock: IMock<DataService>;
-  let dataBaseServiceMock: IMock<DataBaseService>;
-  let processServiceMock: IMock<ProcessService>;
+  let parserServiceMock: IMock<ParserService>;
+  let gameServiceMock: IMock<GameService>;
+  let formatterServiceMock: IMock<FormatterService>;
   let messengerServiceMock: IMock<MessengerService>;
 
   let main: Main;
 
   beforeEach(() => {
-    dataServiceMock = Mock.ofType<DataService>();
-    dataBaseServiceMock = Mock.ofType<DataBaseService>();
-    processServiceMock = Mock.ofType<ProcessService>();
+    parserServiceMock = Mock.ofType<ParserService>();
+    gameServiceMock = Mock.ofType<GameService>();
+    formatterServiceMock = Mock.ofType<FormatterService>();
     messengerServiceMock = Mock.ofType<MessengerService>();
 
-    const configuration = {
-      channelId: CHANNEL_ID,
-    };
-
     main = new Main(
-      configuration,
-      dataServiceMock.object,
-      dataBaseServiceMock.object,
-      processServiceMock.object,
+      parserServiceMock.object,
+      gameServiceMock.object,
+      formatterServiceMock.object,
       messengerServiceMock.object,
     );
   });
 
   afterEach(() => {
-    dataServiceMock.verifyAll();
-    dataBaseServiceMock.verifyAll();
-    processServiceMock.verifyAll();
+    parserServiceMock.verifyAll();
+    gameServiceMock.verifyAll();
+    formatterServiceMock.verifyAll();
     messengerServiceMock.verifyAll();
   });
 
@@ -46,7 +39,7 @@ describe('Main', () => {
     // Arrange
 
     // Act
-    main.sendMessage();
+    main.processMessage('test');
 
     // Assert
     expect(true).toBeTruthy();

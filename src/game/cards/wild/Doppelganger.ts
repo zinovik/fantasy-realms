@@ -1,5 +1,5 @@
-import { Card } from '../../common/Card';
-import { SUIT_WILD } from '../suits';
+import { Card } from '../../../common/Card';
+import { SUIT_WILD } from '../../suits';
 
 export class Doppelganger extends Card {
   constructor() {
@@ -10,7 +10,7 @@ export class Doppelganger extends Card {
       originalBaseStrength: 0,
       isIncreaseCardsLimit: true,
       allowsNextCardToBeCopy: true,
-      choiceModificator: 'DOPPELGANGER',
+      choiceModifier: 'DOPPELGANGER',
     });
   }
 
@@ -23,9 +23,9 @@ export class Doppelganger extends Card {
 
     const nextCard: Card = cards[nextCardIndex];
 
-    const nextCardCopy = nextCard.getCopy(true);
+    const nextCardCopy = nextCard.getCopy();
     nextCardCopy.isClearBonus = true;
-    nextCardCopy.modifiedBy = this.choiceModificator;
+    nextCardCopy.modifiedBy = this.choiceModifier;
 
     cards.splice(nextCardIndex, 1, nextCardCopy);
   }

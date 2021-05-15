@@ -15,7 +15,7 @@ export class Shapeshifter extends Card {
     });
   }
 
-  calculate(cards: Card[]): void {
+  updateOtherCards(cards: Card[]): void {
     const nextCardIndex: number = cards.indexOf(this) + 1;
 
     if (nextCardIndex >= cards.length) {

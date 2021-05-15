@@ -12,6 +12,8 @@ export class ElvenArchers extends Card {
   }
 
   calculate(cards: Card[]): void {
-    this.bonus = cards.every((card) => card.suit !== SUIT_WEATHER) ? 5 : 0;
+    this.bonus = cards.filter((card) => !card.isHidden && !card.isBlanked).every((card) => card.suit !== SUIT_WEATHER)
+      ? 5
+      : 0;
   }
 }

@@ -24,10 +24,30 @@ export class GemOfOrder extends Card {
   calculate(cards: Card[]): void {
     this.bonus =
       BONUS_MAP[
-        cards.reduce(
-          (accMax: number, card: Card) => Math.max(cards.filter(({ suit }) => suit === card.suit).length, accMax),
-          1,
-        )
+        cards
+          .filter((card) => !card.isHidden && !card.isBlanked)
+          .sort((card1, card2) => card1.getOriginalBaseStrength() - card2.getOriginalBaseStrength())
+          .reduce(
+            (
+              {
+                maxInRow,
+                currentInRow,
+                lastBaseStrength,
+              }: { maxInRow: number; currentInRow: number; lastBaseStrength: number },
+              card: Card,
+            ) => {
+              const baseStrength = card.getOriginalBaseStrength();
+
+              return baseStrength === lastBaseStrength + 1
+                ? {
+                    maxInRow: Math.max(maxInRow, currentInRow + 1),
+                    currentInRow: currentInRow + 1,
+                    lastBaseStrength: baseStrength,
+                  }
+                : { maxInRow, currentInRow: 1, lastBaseStrength: baseStrength };
+            },
+            { maxInRow: 1, currentInRow: 1, lastBaseStrength: -2 },
+          ).maxInRow
       ];
   }
 }

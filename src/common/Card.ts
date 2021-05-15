@@ -105,6 +105,10 @@ export class Card {
     return [];
   }
 
+  updateOtherCards(cards: Card[]): void {
+    //
+  }
+
   clearPenalty(cards: Card[]): void {
     //
   }

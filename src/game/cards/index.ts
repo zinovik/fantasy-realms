@@ -10,6 +10,8 @@ import { BookOfChanges } from './artifact/BookOfChanges';
 import { ShieldOfKeth } from './artifact/ShieldOfKeth';
 import { GemOfOrder } from './artifact/GemOfOrder';
 
+import { Warhorse } from './beast/Warhorse';
+
 import { Princess } from './leader/Princess';
 
 import { Shapeshifter } from './wild/Shapeshifter';
@@ -30,6 +32,8 @@ export const allCards = [
   new BookOfChanges(),
   new ShieldOfKeth(),
   new GemOfOrder(),
+
+  new Warhorse(),
 
   new Princess(),
 

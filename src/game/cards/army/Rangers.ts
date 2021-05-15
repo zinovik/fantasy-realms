@@ -11,9 +11,12 @@ export class Rangers extends Card {
     });
   }
 
-  calculate(cards: Card[]): void {
-    this.bonus = cards.filter((card) => card.suit === SUIT_LAND).length * 10;
-
+  clearPenalty(cards: Card[]): void {
     cards.forEach((card) => (card.isArmyPenaltyIgnored = true));
+  }
+
+  calculate(cards: Card[]): void {
+    this.bonus =
+      cards.filter((card) => !card.isHidden && !card.isBlanked).filter((card) => card.suit === SUIT_LAND).length * 10;
   }
 }

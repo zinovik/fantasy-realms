@@ -12,6 +12,10 @@ export class WorldTree extends Card {
   }
 
   calculate(cards: Card[]): void {
-    this.bonus = cards.every((card) => cards.filter(({ suit }) => suit === card.suit).length === 1) ? 50 : 0;
+    this.bonus = cards
+      .filter((card) => !card.isHidden && !card.isBlanked)
+      .every((card) => cards.filter(({ suit }) => suit === card.suit).length === 1)
+      ? 50
+      : 0;
   }
 }

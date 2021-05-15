@@ -12,6 +12,7 @@ export class Cavalry extends Card {
   }
 
   calculate(cards: Card[]): void {
-    this.penalty = cards.filter((card) => card.suit === SUIT_LAND).length * -2;
+    this.penalty =
+      cards.filter((card) => !card.isHidden && !card.isBlanked).filter((card) => card.suit === SUIT_LAND).length * -2;
   }
 }

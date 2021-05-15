@@ -32,11 +32,10 @@ export class Game implements GameService {
       return [...acc, card];
     }, [] as Card[]);
 
-    const cardsFiltered = cards.filter((card) => !card.isHidden);
-
-    cardsFiltered.forEach((card) => card.clearPenalty(cards));
-    cardsFiltered.forEach((card) => card.blankCards(cards));
-    cardsFiltered.filter((card) => !card.isBlanked).forEach((card) => card.calculate(cards));
+    cards.forEach((card) => card.updateOtherCards(cards));
+    cards.forEach((card) => card.clearPenalty(cards));
+    cards.forEach((card) => card.blankCards(cards));
+    cards.forEach((card) => card.calculate(cards));
 
     console.log('CARDS AFTER CALCULATE: ', cards);
 

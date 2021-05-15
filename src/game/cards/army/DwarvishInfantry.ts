@@ -18,6 +18,9 @@ export class DwarvishInfantry extends Card {
       return;
     }
 
-    this.penalty = cards.filter((card) => card !== this && card.suit === SUIT_ARMY).length * -2;
+    this.penalty =
+      cards
+        .filter((card) => !card.isHidden && !card.isBlanked)
+        .filter((card) => card !== this && card.suit === SUIT_ARMY).length * -2;
   }
 }

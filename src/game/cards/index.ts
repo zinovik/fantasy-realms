@@ -12,6 +12,9 @@ import { GemOfOrder } from './artifact/GemOfOrder';
 
 import { Warhorse } from './beast/Warhorse';
 import { Unicorn } from './beast/Unicorn';
+import { Hydra } from './beast/Hydra';
+import { Dragon } from './beast/Dragon';
+import { Basilisk } from './beast/Basilisk';
 
 import { Princess } from './leader/Princess';
 
@@ -36,6 +39,9 @@ export const allCards = [
 
   new Warhorse(),
   new Unicorn(),
+  new Hydra(),
+  new Dragon(),
+  new Basilisk(),
 
   new Princess(),
 

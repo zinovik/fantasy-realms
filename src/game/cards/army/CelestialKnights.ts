@@ -1,5 +1,5 @@
 import { Card } from '../../../common/Card';
-import { SUIT_ARMY, SUIT_LEADER, SUIT_WEATHER } from '../../suits';
+import { SUIT_ARMY, SUIT_LEADER } from '../../suits';
 
 export class CelestialKnights extends Card {
   constructor() {

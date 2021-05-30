@@ -1,5 +1,5 @@
 import { Card } from '../../../common/Card';
-import { SUIT_ARMY, SUIT_LAND } from '../../suits';
+import { SUIT_ARMY } from '../../suits';
 
 export class DwarvishInfantry extends Card {
   constructor() {

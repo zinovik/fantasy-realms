@@ -14,7 +14,7 @@ export class Warhorse extends Card {
   calculate(cards: Card[]): void {
     this.bonus = cards
       .filter((card) => !card.isHidden && !card.isBlanked)
-      .find((card) => [SUIT_LEADER, SUIT_WIZARD].includes(card.suit))
+      .some((card) => [SUIT_LEADER, SUIT_WIZARD].includes(card.suit))
       ? 14
       : 0;
   }

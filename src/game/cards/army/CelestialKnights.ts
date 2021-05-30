@@ -12,7 +12,7 @@ export class CelestialKnights extends Card {
   }
 
   calculate(cards: Card[]): void {
-    this.penalty = cards.filter((card) => !card.isHidden && !card.isBlanked).find((card) => card.suit === SUIT_LEADER)
+    this.penalty = cards.filter((card) => !card.isHidden && !card.isBlanked).some((card) => card.suit === SUIT_LEADER)
       ? 0
       : -8;
   }

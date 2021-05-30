@@ -11,6 +11,7 @@ import { ShieldOfKeth } from './artifact/ShieldOfKeth';
 import { GemOfOrder } from './artifact/GemOfOrder';
 
 import { Warhorse } from './beast/Warhorse';
+import { Unicorn } from './beast/Unicorn';
 
 import { Princess } from './leader/Princess';
 
@@ -34,6 +35,7 @@ export const allCards = [
   new GemOfOrder(),
 
   new Warhorse(),
+  new Unicorn(),
 
   new Princess(),
 

@@ -14,7 +14,7 @@ export class ShieldOfKeth extends Card {
   }
 
   calculate(cards: Card[]): void {
-    if (!cards.filter((card) => !card.isHidden && !card.isBlanked).find((card) => card.suit === SUIT_LEADER)) {
+    if (!cards.filter((card) => !card.isHidden && !card.isBlanked).some((card) => card.suit === SUIT_LEADER)) {
       this.bonus = 0;
 
       return;
@@ -22,7 +22,7 @@ export class ShieldOfKeth extends Card {
 
     this.bonus = cards
       .filter((card) => !card.isHidden && !card.isBlanked)
-      .find((card) => card.getId() === SWORD_OF_KETH_CARD_ID)
+      .some((card) => card.getId() === SWORD_OF_KETH_CARD_ID)
       ? 40
       : 15;
   }

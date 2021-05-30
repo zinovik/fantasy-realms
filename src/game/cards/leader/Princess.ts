@@ -1,5 +1,5 @@
 import { Card } from '../../../common/Card';
-import { SUIT_ARMY, SUIT_LEADER, SUIT_WEATHER, SUIT_WIZARD } from '../../suits';
+import { SUIT_ARMY, SUIT_LEADER, SUIT_WIZARD } from '../../suits';
 
 export class Princess extends Card {
   constructor() {

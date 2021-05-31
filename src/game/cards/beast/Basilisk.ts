@@ -14,6 +14,10 @@ export class Basilisk extends Card {
   }
 
   blankCards(cards: Card[]): void {
+    if (this.isClearPenalty) {
+      return;
+    }
+
     cards.forEach((card) => {
       if (BLANKED_SUITS.includes(card.suit) && card.getId() !== this.getId()) {
         card.isBlanked = true;
